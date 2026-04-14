@@ -1,3 +1,20 @@
+# AI 快速挂售 Demo
+
+Vite + React + TypeScript + Tailwind + `lucide-react`。
+
+## 阿里云一键部署
+
+```bash
+cp .env.deploy.example .env.deploy
+# 编辑 .env.deploy：选 oss 或 ssh，填 AccessKey / 服务器等
+
+npm run deploy
+```
+
+脚本会先 `npm install` 与 `npm run build`，再按 `DEPLOY_TARGET` 同步 `dist/`。变量说明见 `.env.deploy.example`。
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
