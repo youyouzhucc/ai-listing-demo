@@ -8,11 +8,14 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "bash scripts/deploy-aliyun.sh"
+    "start:prod": "serve -s dist -l 4173",
+    "deploy": "bash scripts/deploy-aliyun.sh",
+    "deploy:ecs": "bash scripts/deploy-ecs.sh"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
     "lucide-react": "^1.8.0",
+    "serve": "^14.2.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tailwindcss": "^4.2.2"

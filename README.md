@@ -13,6 +13,33 @@ npm run deploy
 
 脚本会先 `npm install` 与 `npm run build`，再按 `DEPLOY_TARGET` 同步 `dist/`。变量说明见 `.env.deploy.example`。
 
+## ECS 上一键部署（对齐 `deploy-curabot`）
+
+在阿里云 ECS 上进入克隆目录后，流程与 CuraBot 类似：**备份 `.env` → `git pull` → `npm install` → `npm run build` → `pm2 restart` → `pm2 save` → `curl` 探测**。
+
+```bash
+# 首次：安装 pm2（若尚未全局安装）
+npm i -g pm2
+
+# 首次：在项目根启动（之后只用 deploy:ecs）
+pm2 start ecosystem.config.cjs && pm2 save && pm2 startup   # startup 按提示执行 sudo 命令
+
+# 每次发版
+npm run deploy:ecs
+# 或：bash scripts/deploy-ecs.sh
+```
+
+可选环境变量（与 `deploy-curabot` 一样可写进 `~/.bashrc` 或脚本前 `export`）：
+
+| 变量 | 默认 | 说明 |
+|------|------|------|
+| `PM2_APP_NAME` | `ai-listing-demo` | PM2 进程名 |
+| `GIT_BRANCH` | `main` | `git pull` 分支 |
+| `PORT` | `4173` | `serve` 监听端口（需与 `HEALTHCHECK_URL` 一致） |
+| `HEALTHCHECK_URL` | `http://127.0.0.1:4173/` | 部署后探测地址 |
+
+本仓库无 `knowledge.json` 校验；改为校验 **`dist/index.html`** 是否存在。对外访问建议在前面加 **Nginx 反代** 到 `127.0.0.1:4173`，并配置 HTTPS。
+
 ---
 
 # React + TypeScript + Vite
