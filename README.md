@@ -21,10 +21,10 @@ npm run deploy
 # 首次：安装 pm2（若尚未全局安装）
 npm i -g pm2
 
-# 首次：在项目根启动（之后只用 deploy:ecs）
-pm2 start ecosystem.config.cjs && pm2 save && pm2 startup   # startup 按提示执行 sudo 命令
+# 首次：配置开机自启（只需一次）
+pm2 startup   # 按提示执行输出的 sudo 命令
 
-# 每次发版
+# 每次发版（含首次：会 startOrReload ecosystem）
 npm run deploy:ecs
 # 或：bash scripts/deploy-ecs.sh
 ```

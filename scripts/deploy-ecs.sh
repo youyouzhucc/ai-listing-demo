@@ -51,19 +51,14 @@ if [[ ! -f dist/index.html ]]; then
 fi
 echo "✅ dist 已生成"
 
-echo "🔄 PM2 重启 ${PM2_APP_NAME}..."
+echo "🔄 PM2 startOrReload（读取 ecosystem.config.cjs）..."
+if ! command -v pm2 >/dev/null 2>&1; then
+  echo "❌ 未找到 pm2，请先: npm i -g pm2" >&2
+  exit 1
+fi
 export PORT
 export PM2_APP_NAME
-if command -v pm2 >/dev/null 2>&1 && pm2 describe "$PM2_APP_NAME" >/dev/null 2>&1; then
-  pm2 restart "$PM2_APP_NAME" --update-env
-else
-  echo "（首次：按 ecosystem 启动）"
-  if ! command -v pm2 >/dev/null 2>&1; then
-    echo "❌ 未找到 pm2，请先: npm i -g pm2" >&2
-    exit 1
-  fi
-  pm2 start ecosystem.config.cjs --update-env
-fi
+pm2 startOrReload ecosystem.config.cjs --update-env
 pm2 save
 echo "✅ PM2 已保存"
 
